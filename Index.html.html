@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>شكراً علي البسكويت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#dce6ff; --ink:#1a2fb8; --biscuit:#f2b94b; --edge:#d9962a; --dot:#b97616; --shadow:#1a2fb833;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1540; --ink:#ffe7a8; --biscuit:#f2b94b; --edge:#d9962a; --dot:#a8620f; --shadow:#00000055;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1540; --ink:#ffe7a8; --biscuit:#f2b94b; --edge:#d9962a; --dot:#a8620f; --shadow:#00000055;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{
+  margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Lalezar","Cairo","Segoe UI",Tahoma,sans-serif;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(8px,3vh,28px);overflow:hidden;text-align:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.cookie{
+  width:min(58vw,300px);height:auto;cursor:pointer;
+  filter:drop-shadow(0 14px 0 var(--shadow));
+  animation:drop .9s cubic-bezier(.3,1.6,.5,1) both, sway 4s ease-in-out .9s infinite;
+  transform-origin:50% 100%;
+}
+.cookie:focus-visible{outline:4px solid var(--ink);outline-offset:8px;border-radius:50%}
+.cookie:active{transform:scale(.94) rotate(-6deg)}
+h1{
+  margin:0;font-weight:400;line-height:1.15;
+  font-size:clamp(46px,13vw,120px);
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0 .3em;padding:0 16px;
+}
+h1 span{display:inline-block;opacity:0;animation:pop .7s cubic-bezier(.3,1.7,.5,1) forwards}
+h1 span:nth-child(1){animation-delay:.9s}
+h1 span:nth-child(2){animation-delay:1.15s}
+h1 span:nth-child(3){animation-delay:1.4s;transform-origin:50% 100%}
+.crumb{position:fixed;width:9px;height:9px;border-radius:40% 60% 50% 50%;background:var(--biscuit);border:2px solid var(--edge);pointer-events:none;z-index:5}
+@keyframes drop{from{transform:translateY(-120vh) rotate(-200deg)}to{transform:none}}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes pop{0%{opacity:0;transform:translateY(40px) scale(.4) rotate(-8deg)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+  .cookie,h1 span{animation:none;opacity:1}
+}
+</style>
+</head>
+<body>
+<svg class="cookie" id="cookie" viewBox="0 0 200 200" role="img" aria-label="بسكويتة" tabindex="0">
+  <defs>
+    <mask id="bite">
+      <rect width="200" height="200" fill="#fff"/>
+      <circle cx="160" cy="52" r="20" fill="#000"/>
+      <circle cx="178" cy="78" r="18" fill="#000"/>
+      <circle cx="144" cy="36" r="16" fill="#000"/>
+    </mask>
+  </defs>
+  <g mask="url(#bite)">
+    <circle cx="100" cy="100" r="88" fill="var(--edge)"/>
+    <circle cx="100" cy="100" r="88" fill="none" stroke="var(--biscuit)" stroke-width="10" stroke-dasharray="9 7" stroke-linecap="round"/>
+    <circle cx="100" cy="100" r="78" fill="var(--biscuit)"/>
+    <circle cx="100" cy="100" r="62" fill="none" stroke="var(--edge)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <g fill="var(--dot)">
+      <circle cx="100" cy="100" r="5"/><circle cx="100" cy="72" r="4"/><circle cx="100" cy="128" r="4"/>
+      <circle cx="72" cy="100" r="4"/><circle cx="128" cy="100" r="4"/>
+      <circle cx="80" cy="80" r="3"/><circle cx="120" cy="120" r="3"/>
+      <circle cx="80" cy="120" r="3"/><circle cx="120" cy="80" r="3"/>
+    </g>
+  </g>
+</svg>
+<h1 aria-label="شكراً علي البسكويت"><span>شكراً</span><span>علي</span><span>البسكويت</span></h1>
+<script>
+(function(){
+  var cookie=document.getElementById('cookie');
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function burst(x,y){
+    if(still)return;
+    for(var i=0;i<16;i++){
+      var c=document.createElement('div');
+      c.className='crumb';
+      c.style.left=x+'px';c.style.top=y+'px';
+      document.body.appendChild(c);
+      var a=Math.random()*Math.PI*2,d=60+Math.random()*120;
+      var dx=Math.cos(a)*d,dy=Math.sin(a)*d-40;
+      c.animate([
+        {transform:'translate(0,0) rotate(0)',opacity:1},
+        {transform:'translate('+dx+'px,'+(dy+30)+'px) rotate('+(Math.random()*360)+'deg)',opacity:1,offset:.6},
+        {transform:'translate('+dx*1.1+'px,'+(dy+220)+'px) rotate(540deg)',opacity:0}
+      ],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.6,.4,1)'}).onfinish=(function(n){return function(){n.remove()}})(c);
+    }
+  }
+  cookie.addEventListener('click',function(e){burst(e.clientX,e.clientY)});
+  cookie.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){var r=cookie.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2)}
+  });
+  setTimeout(function(){var r=cookie.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2)},900);
+})();
+</script>
+</body>
+</html>
